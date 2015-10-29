@@ -1,0 +1,57 @@
+---
+title: "Interactive 3D Scatterplot of Voltages"
+output: 
+  html_document:
+    fig_width: 8
+    fig_height: 8
+    fig_caption: true
+---
+
+```{r setup}
+library(knitr)
+library(rgl)
+
+```
+
+``` {r test, webgl=TRUE}
+library("rgl")
+library("plot3D")
+library("rmarkdown")
+
+knit_hooks$set(webgl = hook_webgl)
+
+setwd("C:/Users/User/Downloads")
+potentialtable = read.table("physics-potentials-test.txt", header=FALSE, stringsAsFactors=FALSE)
+
+xcol = c()
+ycol = c()
+potcol = c()
+ycoltoread = c()
+x = 1
+for (x in 1:dim(potentialtable)[2]){
+  y = 1
+  ycoltoread = potentialtable[,paste('V', x, sep = "")]
+  for (y in 1:dim(potentialtable)[1]) {
+    xcol <- c(xcol,x)
+    ycol <- c(ycol,y)
+    potcol <- c(potcol,ycoltoread[y])
+    y = y + 1
+  }
+  x = x + 1
+}
+# ycol = rev(ycol)
+
+plot3d(xcol,ycol,potcol, xlab="x-axis, centimeters", ylab="y-axis, centimeters", zlab="voltage")
+# scatter3D(xcol,ycol,potcol, xlab="x-axis, centimeters", ylab="y-axis, centimeters", zlab="voltage", clab="voltage", theta = 0, phi = 0)
+# scatter3D(xcol,ycol,potcol, xlab="x-axis, centimeters", ylab="y-axis, centimeters", zlab="voltage", clab="voltage")
+
+# rgl.points(xcol,ycol,potcol)
+# axes3d(box =TRUE)
+# title3d(xlab="testx",ylab="testy")
+
+
+# box3d()
+
+# plot(xcol,ycol)
+# example(image2D)
+```
